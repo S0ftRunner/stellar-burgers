@@ -48,7 +48,6 @@ export const BurgerIngredients: FC = () => {
   };
 
   return null;
-
   return (
     <BurgerIngredientsUI
       currentTab={currentTab}
