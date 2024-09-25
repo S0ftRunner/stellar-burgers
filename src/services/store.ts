@@ -5,11 +5,14 @@ import {
   useDispatch as dispatchHook,
   useSelector as selectorHook
 } from 'react-redux';
+import { ingredientsReducer } from './slices/ingredientSlice';
 
 const rootReducer = () => {}; // Заменить на импорт настоящего редьюсера
 
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    ingredients: ingredientsReducer,
+  },
   devTools: process.env.NODE_ENV !== 'production'
 });
 
