@@ -63,7 +63,7 @@ const ingredientsSlice = createSlice({
 
 
 export const selectIngredientById = (id: string) => (state: RootState) => {
-  return state.ingredients.ingredients.find((ing: TIngredient) => ing._id === id);
+  return state.ingredients.ingredients.find((ingredient) => ingredient._id === id);
 };
 
 export const ingredientsReducer = ingredientsSlice.reducer;
