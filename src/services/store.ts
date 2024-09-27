@@ -6,12 +6,14 @@ import {
   useSelector as selectorHook
 } from 'react-redux';
 import { ingredientsReducer } from './slices/ingredientSlice';
+import { feedsReducer } from './slices/feedsSlice';
 
 const rootReducer = () => {}; // Заменить на импорт настоящего редьюсера
 
 const store = configureStore({
   reducer: {
     ingredients: ingredientsReducer,
+    feeds: feedsReducer,
   },
   devTools: process.env.NODE_ENV !== 'production'
 });

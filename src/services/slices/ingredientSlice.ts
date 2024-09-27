@@ -14,7 +14,7 @@ export const getIngredients = createAsyncThunk('ingredients/get', async () => {
   return getIngredientsApi();
 });
 
-function getIngredientsByType(state: TIngredinetsState, type: string) {
+function getIngredientsByType(state: TIngredinetsState, type: string): TIngredient[] {
   return state.ingredients.filter((element: TIngredient) => {
     if (element.type === type) {
       return element;
