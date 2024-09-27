@@ -15,7 +15,6 @@ import styles from './app.module.css';
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Route, Routes } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route';
-import { on } from 'events';
 const onClose = () => {
   console.log('close');
 };
@@ -97,7 +96,7 @@ const App = () => (
       <Route
         path='/ingredients/:id'
         element={
-          <Modal title='Ингредиенты' onClose={onClose}>
+          <Modal title='Детали ингредиента' onClose={onClose}> 
             <IngredientDetails />
           </Modal>
         }

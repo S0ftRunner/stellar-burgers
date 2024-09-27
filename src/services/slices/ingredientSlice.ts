@@ -1,6 +1,7 @@
 import { getIngredientsApi } from '@api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TIngredient } from '@utils-types';
+import { RootState } from '../store';
 
 type TIngredinetsState = {
   ingredients: TIngredient[];
@@ -14,7 +15,10 @@ export const getIngredients = createAsyncThunk('ingredients/get', async () => {
   return getIngredientsApi();
 });
 
-function getIngredientsByType(state: TIngredinetsState, type: string): TIngredient[] {
+function getIngredientsByType(
+  state: TIngredinetsState,
+  type: string
+): TIngredient[] {
   return state.ingredients.filter((element: TIngredient) => {
     if (element.type === type) {
       return element;
@@ -27,6 +31,9 @@ const ingredientsSlice = createSlice({
   initialState,
   reducers: {},
   selectors: {
+    getIngredientByIdSelector: (state, ingredientId: string) => {
+      return state.ingredients.filter(ingredient => ingredient._id === ingredientId);
+   },
     getIngredientsSelector: (state) => state.ingredients,
     getBunsIngredientsSelector: (state) => {
       return getIngredientsByType(state, 'bun');
@@ -54,10 +61,16 @@ const ingredientsSlice = createSlice({
   }
 });
 
+
+export const selectIngredientById = (id: string) => (state: RootState) => {
+  return state.ingredients.ingredients.find((ing: TIngredient) => ing._id === id);
+};
+
 export const ingredientsReducer = ingredientsSlice.reducer;
 export const {
   getIngredientsSelector,
   getMainIngredientsSelector,
   getBunsIngredientsSelector,
-  getSaucesIngredientsSelector
+  getSaucesIngredientsSelector,
+  getIngredientByIdSelector
 } = ingredientsSlice.selectors;

@@ -1,13 +1,17 @@
 import { getFeedsApi } from '@api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { TOrder } from '@utils-types';
+import { TOrder, TOrdersData } from '@utils-types';
 
 type TFeedsState = {
-  feeds: TOrder[];
+  feeds: TOrdersData;
 };
 
 const initialState: TFeedsState = {
-  feeds: []
+  feeds: {
+    orders: [],
+    total: 0,
+    totalToday: 0
+  }
 };
 
 export const getFeeds = createAsyncThunk('feeds/get', async () => {
@@ -20,7 +24,15 @@ const feedsSlice = createSlice({
   reducers: {},
   selectors: {
     getFeedsSelector: (state) => {
-      return state.feeds;
+      return state.feeds.orders;
+    },
+
+    getTotal: (state) => {
+      return state.feeds.total;
+    },
+
+    getTotalToday: (state) => {
+      return state.feeds.totalToday;
     }
   },
   extraReducers: (builder) => {
@@ -30,14 +42,14 @@ const feedsSlice = createSlice({
       })
       .addCase(getFeeds.fulfilled, (state, action) => {
         console.log('запрос завершен успешно');
-        state.feeds = action.payload.orders;
+        state.feeds.orders = action.payload.orders;
         console.log(state.feeds);
       })
       .addCase(getFeeds.rejected, (state) => {
         console.log('запрос отклонен');
-      })
+      });
   }
 });
 
 export const feedsReducer = feedsSlice.reducer;
-export const {getFeedsSelector} = feedsSlice.selectors;
+export const { getFeedsSelector } = feedsSlice.selectors;

@@ -8,11 +8,12 @@ import {  useSelector } from 'react-redux';
 import { useDispatch } from '../../services/store';
 
 export const BurgerIngredients: FC = () => {
-  /** TODO: взять переменные из стора */
+  
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getIngredients());
   }, [dispatch]);
+
   const buns = useSelector(getBunsIngredientsSelector);
   const mains = useSelector(getMainIngredientsSelector);
   const sauces = useSelector(getSaucesIngredientsSelector);

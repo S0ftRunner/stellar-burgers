@@ -6,14 +6,12 @@ import { useSelector } from 'react-redux';
 import { getFeeds, getFeedsSelector } from '../../services/slices/feedsSlice';
 import { useDispatch } from '../../services/store';
 
+// TODO: прописать обновление заказов
 export const Feed: FC = () => {
-
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getFeeds());
   }, [dispatch]);
-
-  /** TODO: взять переменную из стора */
   const orders: TOrder[] = useSelector(getFeedsSelector);
 
   if (!orders.length) {
