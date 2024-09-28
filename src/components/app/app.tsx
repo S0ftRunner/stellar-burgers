@@ -19,7 +19,7 @@ import { ProtectedRoute } from '../protected-route';
 const App = () => {
   const navigate = useNavigate();
   const onClose = () => {
-    navigate('/');
+    navigate(-1);
   };
   return (
     <div className={styles.app}>
