@@ -1,6 +1,7 @@
 import { getFeedsApi } from '@api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TOrder, TOrdersData } from '@utils-types';
+import { RootState } from '../store';
 
 type TFeedsState = {
   feeds: TOrdersData;
@@ -50,6 +51,10 @@ const feedsSlice = createSlice({
       });
   }
 });
+
+export const getFeedByNumberSelector = (feedId: number) => (state: RootState) => {
+  return state.feeds.feeds.orders.filter((order) => order.number === feedId);
+}
 
 export const feedsReducer = feedsSlice.reducer;
 export const { getFeedsSelector } = feedsSlice.selectors;

@@ -2,8 +2,12 @@ import { FC, useMemo } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { getFeedByNumberSelector } from 'src/services/slices/feedsSlice';
 
 export const OrderInfo: FC = () => {
+  const {number} = useParams();
   /** TODO: взять переменные orderData и ingredients из стора */
   const orderData = {
     createdAt: '',
@@ -15,6 +19,7 @@ export const OrderInfo: FC = () => {
     number: 0
   };
 
+ 
   const ingredients: TIngredient[] = [];
 
   /* Готовим данные для отображения */
