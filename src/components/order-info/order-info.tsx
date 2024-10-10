@@ -9,15 +9,7 @@ import { getFeedByNumberSelector } from 'src/services/slices/feedsSlice';
 export const OrderInfo: FC = () => {
   const {number} = useParams();
   /** TODO: взять переменные orderData и ingredients из стора */
-  const orderData = {
-    createdAt: '',
-    ingredients: [],
-    _id: '',
-    status: '',
-    name: '',
-    updatedAt: 'string',
-    number: 0
-  };
+  const orderData = useSelector(getFeedByNumberSelector(number));
 
  
   const ingredients: TIngredient[] = [];

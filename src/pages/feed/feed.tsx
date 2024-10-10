@@ -8,15 +8,20 @@ import { useDispatch } from '../../services/store';
 
 // TODO: прописать обновление заказов
 export const Feed: FC = () => {
+ 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getFeeds());
   }, [dispatch]);
   const orders: TOrder[] = useSelector(getFeedsSelector);
+  const handleGetFeeds = () => {
+    dispatch(getFeeds());
+    console.log('произошло обновление списка');
+  }
 
   if (!orders.length) {
     return <Preloader />;
   }
 
-  return <FeedUI orders={orders} handleGetFeeds={() => {}} />;
+  return <FeedUI orders={orders} handleGetFeeds={handleGetFeeds} />;
 };
