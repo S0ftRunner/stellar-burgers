@@ -28,11 +28,11 @@ const feedsSlice = createSlice({
       return state.feeds.orders;
     },
 
-    getTotal: (state) => {
+    getTotalSelector: (state) => {
       return state.feeds.total;
     },
 
-    getTotalToday: (state) => {
+    getTotalTodaySelector: (state) => {
       return state.feeds.totalToday;
     }
   },
@@ -43,8 +43,7 @@ const feedsSlice = createSlice({
       })
       .addCase(getFeeds.fulfilled, (state, action) => {
         console.log('запрос завершен успешно');
-        state.feeds.orders = action.payload.orders;
-        console.log(state.feeds);
+        state.feeds = action.payload;
       })
       .addCase(getFeeds.rejected, (state) => {
         console.log('запрос отклонен');
@@ -57,4 +56,4 @@ export const getFeedByNumberSelector = (feedId: number) => (state: RootState) =>
 }
 
 export const feedsReducer = feedsSlice.reducer;
-export const { getFeedsSelector } = feedsSlice.selectors;
+export const { getFeedsSelector, getTotalTodaySelector, getTotalSelector } = feedsSlice.selectors;
