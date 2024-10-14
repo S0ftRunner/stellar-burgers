@@ -43,7 +43,7 @@ const ingredientsSlice = createSlice({
     },
     getSaucesIngredientsSelector: (state) => {
       return getIngredientsByType(state, 'sauce');
-    }
+    },
   },
 
   extraReducers: (builder) => {
