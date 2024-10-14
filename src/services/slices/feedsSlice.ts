@@ -41,6 +41,7 @@ const feedsSlice = createSlice({
       return state.feeds.totalToday;
     }, 
     getOrderModalDataSelector: (state) => state.orderModalData,
+    getIsLoadingOrderSelector: (state) => state.isLoading,
   },
   extraReducers: (builder) => {
     builder
@@ -59,13 +60,16 @@ const feedsSlice = createSlice({
       })
       .addCase(getOrderByNumber.pending, (state) => {
         console.log('запрос отправлен');
+        state.isLoading = true;
       })
       .addCase(getOrderByNumber.fulfilled, (state, action) => {
         console.log('данные получены');
         state.orderModalData = action.payload;
+        state.isLoading = false;
       })
       .addCase(getOrderByNumber.rejected, (state) => {
         console.log('данные не были приняты');
+        state.isLoading = false;
       });
   }
 });
@@ -91,5 +95,5 @@ export const getOrderByNumber = createAsyncThunk(
   }
 );
 export const feedsReducer = feedsSlice.reducer;
-export const { getFeedsSelector, getTotalTodaySelector, getTotalSelector, getOrderModalDataSelector } =
+export const { getFeedsSelector, getTotalTodaySelector, getTotalSelector, getOrderModalDataSelector, getIsLoadingOrderSelector } =
   feedsSlice.selectors;

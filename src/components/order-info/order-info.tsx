@@ -7,6 +7,7 @@ import { useSelector } from '../../services/store';
 import {
   getFeedByNumberSelector,
   getFeeds,
+  getIsLoadingOrderSelector,
   getOrderByNumber,
   getOrderModalDataSelector,
 } from '../../services/slices/feedsSlice';
@@ -20,6 +21,7 @@ export const OrderInfo: FC = () => {
   const dispatch = useDispatch();
   const { number } = useParams();
   const orderData = useSelector(getOrderModalDataSelector);
+  const isLoading = useSelector(getIsLoadingOrderSelector);
 
   const ingredients: TIngredient[] = useSelector(getIngredientsSelector);
 
@@ -29,12 +31,8 @@ export const OrderInfo: FC = () => {
 
   /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {
-    if (!orderData || !ingredients.length) {
-      console.log()
-      console.log(orderData);
-      console.log('ничего не работает');
-      return null;
-    }
+    if (!orderData || !ingredients.length) return null;
+    
 
     const date = new Date(orderData.createdAt);
 
@@ -73,6 +71,10 @@ export const OrderInfo: FC = () => {
       total
     };
   }, [orderData, ingredients]);
+
+  if (isLoading) {
+    return <Preloader />
+  }
 
   if (!orderInfo) {
     return <Preloader />
