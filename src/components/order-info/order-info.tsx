@@ -75,7 +75,7 @@ export const OrderInfo: FC = () => {
   }, [orderData, ingredients]);
 
   if (!orderInfo) {
-    return null;
+    return <Preloader />
   }
 
   return <OrderInfoUI orderInfo={orderInfo} />;
