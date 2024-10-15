@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import { getFeeds, getFeedsSelector, getIsLoadingOrderSelector } from '../../services/slices/feedsSlice';
 import { useDispatch } from '../../services/store';
 
-// TODO: прописать обновление заказов
 export const Feed: FC = () => {
  
   const dispatch = useDispatch();
@@ -17,7 +16,6 @@ export const Feed: FC = () => {
   const isLoading = useSelector(getIsLoadingOrderSelector);
   const handleGetFeeds = () => {
     dispatch(getFeeds());
-    console.log('произошло обновление списка');
   }
 
   if (isLoading) {

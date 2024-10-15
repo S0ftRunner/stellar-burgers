@@ -5,14 +5,11 @@ import { TIngredient } from '@utils-types';
 import { useParams } from 'react-router-dom';
 import { useSelector } from '../../services/store';
 import {
-  getFeedByNumberSelector,
-  getFeeds,
   getIsLoadingOrderSelector,
   getOrderByNumber,
   getOrderModalDataSelector,
 } from '../../services/slices/feedsSlice';
 import {
-  getIngredients,
   getIngredientsSelector
 } from '../../services/slices/ingredientSlice';
 import { useDispatch } from '../../services/store';

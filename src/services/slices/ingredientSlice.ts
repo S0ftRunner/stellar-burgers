@@ -5,10 +5,12 @@ import { RootState } from '../store';
 
 type TIngredinetsState = {
   ingredients: TIngredient[];
+  isLoadingIngredients: boolean;
 };
 
 const initialState: TIngredinetsState = {
-  ingredients: []
+  ingredients: [],
+  isLoadingIngredients: false,
 };
 
 export const getIngredients = createAsyncThunk('ingredients/get', async () => {
@@ -44,19 +46,23 @@ const ingredientsSlice = createSlice({
     getSaucesIngredientsSelector: (state) => {
       return getIngredientsByType(state, 'sauce');
     },
+    getIsLoadingIngredientsSelector: (state) => state.isLoadingIngredients,
   },
 
   extraReducers: (builder) => {
     builder
       .addCase(getIngredients.pending, (state) => {
         console.log('ожидаю ингредиенты');
+        state.isLoadingIngredients = true;
       })
       .addCase(getIngredients.rejected, (state) => {
         console.log('Произошла ошибка в запросе');
+        state.isLoadingIngredients = false;
       })
       .addCase(getIngredients.fulfilled, (state, action) => {
         console.log('Ингредиенты получены');
         state.ingredients = action.payload;
+        state.isLoadingIngredients = false;
       });
   }
 });
@@ -72,5 +78,6 @@ export const {
   getMainIngredientsSelector,
   getBunsIngredientsSelector,
   getSaucesIngredientsSelector,
-  getIngredientByIdSelector
+  getIngredientByIdSelector,
+  getIsLoadingIngredientsSelector
 } = ingredientsSlice.selectors;

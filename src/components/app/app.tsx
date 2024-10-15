@@ -14,7 +14,10 @@ import styles from './app.module.css';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { ProtectedRoute } from '../protected-route';
+import { useDispatch } from '../../services/store';
+import { getIngredients } from '../../services/slices/ingredientSlice';
 
 const App = () => {
 
@@ -26,6 +29,11 @@ const App = () => {
   const onClose = () => {
     navigate(-1);
   };
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, [dispatch]);
   return (
     <div className={styles.app}>
       <AppHeader />
