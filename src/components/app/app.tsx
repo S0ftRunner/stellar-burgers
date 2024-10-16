@@ -36,7 +36,7 @@ const App = () => {
   }, [dispatch]);
   return (
     <div className={styles.app}>
-      <AppHeader />
+      <AppHeader  />
       <Routes location={backgroundLocation || location}>
         <Route path='*' element={<NotFound404 />} />
         <Route path='/' element={<ConstructorPage />} />

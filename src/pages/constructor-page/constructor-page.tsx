@@ -4,11 +4,10 @@ import styles from './constructor-page.module.css';
 import { BurgerIngredients } from '../../components';
 import { BurgerConstructor } from '../../components';
 import { Preloader } from '../../components/ui';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { getIsLoadingIngredientsSelector } from '../../services/slices/ingredientSlice';
 
 export const ConstructorPage: FC = () => {
-
   const isIngredientsLoading = useSelector(getIsLoadingIngredientsSelector);
 
   return (

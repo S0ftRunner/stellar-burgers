@@ -91,7 +91,7 @@ export const getFeedsApi = () =>
       return Promise.reject(data);
     });
 
-// получение заказов
+// получение заказов самого пользователя
 export const getOrdersApi = () =>
   fetchWithRefresh<TFeedsResponse>(`${URL}/orders`, {
     method: 'GET',
@@ -217,7 +217,7 @@ export const resetPasswordApi = (data: { password: string; token: string }) =>
 
 type TUserResponse = TServerResponse<{ user: TUser }>;
 
-// даннык юзера
+// данные юзера
 export const getUserApi = () =>
   fetchWithRefresh<TUserResponse>(`${URL}/auth/user`, {
     headers: {
