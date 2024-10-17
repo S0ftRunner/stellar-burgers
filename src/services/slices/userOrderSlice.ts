@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { orderBurgerApi } from '@api';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
 
 type TUserOrderData = {
@@ -58,6 +59,17 @@ const userOrderSlice = createSlice({
     getUserOrderIngredients: (state) => state.ingredients
   }
 });
+
+export const createOrder = createAsyncThunk(
+  'userOrder/createOrder',
+  async (data: string[]) => {
+    const response = await orderBurgerApi(data);
+
+    if (response.success) {
+      return {orderName: response.name, order: response.order};
+    }
+  }
+)
 
 export const userOrderReducer = userOrderSlice.reducer;
 
