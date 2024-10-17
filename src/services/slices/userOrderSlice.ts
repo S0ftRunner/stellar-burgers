@@ -47,6 +47,11 @@ const userOrderSlice = createSlice({
 
       state.ingredients[action.payload.index + 1] = currentItem;
     },
+
+    resetUserOrder: (state) => {
+      state.bun = null;
+      state.ingredients = [];
+    }
   },
   selectors: {
     getUserOrderBun: (state) => state.bun,
@@ -59,5 +64,5 @@ export const userOrderReducer = userOrderSlice.reducer;
 export const { getUserOrderBun, getUserOrderIngredients } =
   userOrderSlice.selectors;
 
-export const { addIngredient, addBun, deleteIngredient, moveUpIngredient, moveDownIngredient } =
+export const { addIngredient, addBun, deleteIngredient, moveUpIngredient, moveDownIngredient, resetUserOrder } =
   userOrderSlice.actions;

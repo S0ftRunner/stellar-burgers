@@ -6,7 +6,6 @@ import { deleteIngredient, moveDownIngredient, moveUpIngredient } from '../../se
 
 export const BurgerConstructorElement: FC<BurgerConstructorElementProps> = memo(
   ({ ingredient, index, totalItems }) => {
-    // добавить drag and drop
 
     const dispatch = useDispatch()
     const handleMoveDown = () => {
