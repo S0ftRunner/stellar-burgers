@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
 
 type TUserOrderData = {
@@ -8,7 +8,7 @@ type TUserOrderData = {
 
 const initialState: TUserOrderData = {
   bun: null,
-  ingredients: [],
+  ingredients: []
 };
 
 const userOrderSlice = createSlice({
@@ -25,8 +25,28 @@ const userOrderSlice = createSlice({
 
     deleteIngredient: (state, action) => {
       console.log('удаление элемента');
-      state.ingredients = state.ingredients.filter(ingredient => ingredient._id !== action.payload);
-    }
+      state.ingredients = state.ingredients.filter(
+        (ingredient) => ingredient._id !== action.payload
+      );
+    },
+
+    moveUpIngredient: (state, action: PayloadAction<{ index: number }>) => {
+      const currentItem = state.ingredients[action.payload.index];
+
+      state.ingredients[action.payload.index] =
+        state.ingredients[action.payload.index - 1];
+
+      state.ingredients[action.payload.index - 1] = currentItem;
+    },
+
+    moveDownIngredient:  (state, action: PayloadAction<{ index: number }>) => {
+      const currentItem = state.ingredients[action.payload.index];
+
+      state.ingredients[action.payload.index] =
+        state.ingredients[action.payload.index + 1];
+
+      state.ingredients[action.payload.index + 1] = currentItem;
+    },
   },
   selectors: {
     getUserOrderBun: (state) => state.bun,
@@ -39,4 +59,5 @@ export const userOrderReducer = userOrderSlice.reducer;
 export const { getUserOrderBun, getUserOrderIngredients } =
   userOrderSlice.selectors;
 
-export const { addIngredient, addBun, deleteIngredient } = userOrderSlice.actions;
+export const { addIngredient, addBun, deleteIngredient, moveUpIngredient, moveDownIngredient } =
+  userOrderSlice.actions;
