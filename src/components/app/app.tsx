@@ -20,7 +20,6 @@ import { useDispatch } from '../../services/store';
 import { getIngredients } from '../../services/slices/ingredientSlice';
 
 const App = () => {
-
   const location = useLocation();
 
   const backgroundLocation = location.state?.background;
@@ -36,7 +35,7 @@ const App = () => {
   }, [dispatch]);
   return (
     <div className={styles.app}>
-      <AppHeader  />
+      <AppHeader />
       <Routes location={backgroundLocation || location}>
         <Route path='*' element={<NotFound404 />} />
         <Route path='/' element={<ConstructorPage />} />

@@ -14,7 +14,7 @@ export const Register: FC = () => {
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     try {
-      await dispatch(regiterUser({name: userName, email: email, password: password})).unwrap();
+      await dispatch(regiterUser({name: userName, email: email, password: password}));
       navigate('/profile');
     } catch (err) {
       console.log(err);
