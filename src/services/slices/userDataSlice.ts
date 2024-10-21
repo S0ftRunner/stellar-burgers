@@ -1,4 +1,13 @@
-import { getUserApi, loginUserApi, logoutApi, registerUserApi, resetPasswordApi, TLoginData, TRegisterData, updateUserApi } from '@api';
+import {
+  getUserApi,
+  loginUserApi,
+  logoutApi,
+  registerUserApi,
+  resetPasswordApi,
+  TLoginData,
+  TRegisterData,
+  updateUserApi
+} from '@api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TUser } from '@utils-types';
 import { removeUserTokens, setUserTokens } from '../../utils/auth';
@@ -24,7 +33,7 @@ const userDataSlice = createSlice({
   reducers: {},
   selectors: {
     getUserDataSelector: (state) => state
-  }, 
+  },
 
   extraReducers: (builder) => {
     builder
@@ -38,79 +47,105 @@ const userDataSlice = createSlice({
       .addCase(regiterUser.rejected, (state, action) => {
         console.log(action.error);
       })
+      .addCase(loginUser.pending, (state) => {
+        console.log('login pending');
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.data = action.payload;
+        state.isAuth = true;
+      })
+      .addCase(loginUser.rejected, (state) => {
+        console.log('login rejected');
+      })
+      .addCase(getUserData.pending, (state) => {
+        console.log('userData pending');
+      })
+      .addCase(getUserData.fulfilled, (state, action) => {
+        state.data = action.payload || (state.data = { name: '', email: '' });
+        state.isAuth = true;
+        state.isAuthChecked = true;
+      })
+      .addCase(getUserData.rejected, (state, action) => {
+        console.log(`rejected get user data: ${action.error}`);
+      })
+      .addCase(logoutUser.pending, (state) => {
+        console.log('logout pending');
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        console.log('logout user');
+        state.data = {
+          name: '',
+          email: ''
+        };
+        state.isAuth = false;
+        state.isAuthChecked = false;
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        console.log(`logout rejected: ${action.error}`);
+      });
   }
 });
-
 
 export const regiterUser = createAsyncThunk(
   'user/register',
   async (data: TRegisterData) => {
     const response = await registerUserApi(data);
 
-    const {user, refreshToken, accessToken} = response;
+    const { user, refreshToken, accessToken } = response;
 
     setUserTokens(refreshToken, accessToken);
 
     return user;
   }
-)
+);
 
 export const loginUser = createAsyncThunk(
   'user/login',
   async (data: TLoginData) => {
     const response = await loginUserApi(data);
 
-    const {user, refreshToken, accessToken} = response;
+    const { user, refreshToken, accessToken } = response;
 
     setUserTokens(refreshToken, accessToken);
     return user;
   }
-)
+);
 
 export const resetPassword = createAsyncThunk(
   'user/resetPassword',
-  async (data: {password: string, token: string}) => {
+  async (data: { password: string; token: string }) => {
     const response = await resetPasswordApi(data);
 
-    const {success} = response;
+    const { success } = response;
 
     return success;
   }
-)
+);
 
 export const updateUser = createAsyncThunk(
   'user/update',
   async (data: Partial<TRegisterData>) => {
     const response = await updateUserApi(data);
 
-    const {user} = response;
+    const { user } = response;
 
     return user;
   }
-)
+);
 
-export const logoutUser = createAsyncThunk(
-  'user/logout',
-  async () => {
-    const response = await logoutApi();
+export const logoutUser = createAsyncThunk('user/logout', async () => {
+  const response = await logoutApi();
 
-    if (response.success) removeUserTokens();
+  if (response.success) removeUserTokens();
+});
+
+export const getUserData = createAsyncThunk('user/getData', async () => {
+  const response = await getUserApi();
+
+  if (response.success) {
+    return response.user;
   }
-)
-
-export const getUserData = createAsyncThunk(
-  'user/getData',
-  async () => {
-    const response = await getUserApi();
-
-    if (response.success) {
-      return response.user;
-    }
-
-
-  }
-)
-
+});
 
 export const userDataReducer = userDataSlice.reducer;
-export const {getUserDataSelector} = userDataSlice.selectors;
+export const { getUserDataSelector } = userDataSlice.selectors;

@@ -28,7 +28,7 @@ const feedsSlice = createSlice({
   initialState,
   reducers: {},
   selectors: {
-    getOrder: (state) => state.feeds,
+    getOrders: (state) => state.feeds,
     getFeedsSelector: (state) => {
       return state.feeds.orders;
     },

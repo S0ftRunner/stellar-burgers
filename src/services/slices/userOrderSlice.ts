@@ -55,6 +55,7 @@ const userOrderSlice = createSlice({
     }
   },
   selectors: {
+    getOrderState: (state) => state,
     getUserOrderBun: (state) => state.bun,
     getUserOrderIngredients: (state) => state.ingredients
   }
@@ -73,7 +74,7 @@ export const createOrder = createAsyncThunk(
 
 export const userOrderReducer = userOrderSlice.reducer;
 
-export const { getUserOrderBun, getUserOrderIngredients } =
+export const { getUserOrderBun, getUserOrderIngredients, getOrderState } =
   userOrderSlice.selectors;
 
 export const { addIngredient, addBun, deleteIngredient, moveUpIngredient, moveDownIngredient, resetUserOrder } =
