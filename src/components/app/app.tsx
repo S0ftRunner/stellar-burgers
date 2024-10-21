@@ -47,9 +47,7 @@ const App = () => {
         <Route
           path='/login'
           element={
-            <ProtectedRoute>
               <Login />
-            </ProtectedRoute>
           }
         />
         <Route

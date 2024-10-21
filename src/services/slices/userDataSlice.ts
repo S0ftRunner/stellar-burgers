@@ -67,6 +67,7 @@ const userDataSlice = createSlice({
       })
       .addCase(getUserData.rejected, (state, action) => {
         console.log(`rejected get user data: ${action.error}`);
+        state.isAuthChecked = true;
       })
       .addCase(logoutUser.pending, (state) => {
         console.log('logout pending');
@@ -78,7 +79,7 @@ const userDataSlice = createSlice({
           email: ''
         };
         state.isAuth = false;
-        state.isAuthChecked = false;
+        state.isAuthChecked = true;
       })
       .addCase(logoutUser.rejected, (state, action) => {
         console.log(`logout rejected: ${action.error}`);

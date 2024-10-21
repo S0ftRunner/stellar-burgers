@@ -15,12 +15,12 @@ export const ProtectedRoute = ({children}: TProtectedRouteProps) => {
   if (!isAuthChecked) {
     return <Preloader />
   }
-  if (data) {
-    const { from } = location.state || { from: { pathname: '/' } };
-    return <Navigate to={from} />;
-  }
+  // if (data.name && data.email) {
+  //   const { from } = location.state || { from: { pathname: '/profile' } };
+  //   return <Navigate to={from} />;
+  // }
 
-  if (!data) {
+  if (!data.name || !data.email) {
     return <Navigate to='/login' state={{from: location}}/>
   }
 
