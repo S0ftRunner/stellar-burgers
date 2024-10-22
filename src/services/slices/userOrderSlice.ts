@@ -1,15 +1,19 @@
-import { orderBurgerApi } from '@api';
+import { orderBurgerApi, TNewOrderResponse } from '@api';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
 
 type TUserOrderData = {
   bun: TIngredient | null;
   ingredients: TConstructorIngredient[];
+  orderResponse: TNewOrderResponse | null;
+  orderRequest: boolean;
 };
 
 const initialState: TUserOrderData = {
   bun: null,
-  ingredients: []
+  ingredients: [],
+  orderResponse: null,
+  orderRequest: false,
 };
 
 const userOrderSlice = createSlice({
@@ -40,7 +44,7 @@ const userOrderSlice = createSlice({
       state.ingredients[action.payload.index - 1] = currentItem;
     },
 
-    moveDownIngredient:  (state, action: PayloadAction<{ index: number }>) => {
+    moveDownIngredient: (state, action: PayloadAction<{ index: number }>) => {
       const currentItem = state.ingredients[action.payload.index];
 
       state.ingredients[action.payload.index] =
@@ -57,7 +61,21 @@ const userOrderSlice = createSlice({
   selectors: {
     getOrderState: (state) => state,
     getUserOrderBun: (state) => state.bun,
-    getUserOrderIngredients: (state) => state.ingredients
+    getUserOrderIngredients: (state) => state.ingredients,
+
+  },
+
+  extraReducers: (builder) => {
+    builder.addCase(createOrder.pending, (state) => {
+      console.log('pending createOrder');
+      state.orderRequest = true;
+    })
+    .addCase(createOrder.fulfilled, (state, action) => {
+      state.orderResponse = action.payload || null;
+      state.orderRequest = false;
+      state.bun = null;
+      state.ingredients = [];
+    })
   }
 });
 
@@ -67,15 +85,21 @@ export const createOrder = createAsyncThunk(
     const response = await orderBurgerApi(data);
 
     if (response.success) {
-      return {orderName: response.name, order: response.order};
+      return response;
     }
   }
-)
+);
 
 export const userOrderReducer = userOrderSlice.reducer;
 
 export const { getUserOrderBun, getUserOrderIngredients, getOrderState } =
   userOrderSlice.selectors;
 
-export const { addIngredient, addBun, deleteIngredient, moveUpIngredient, moveDownIngredient, resetUserOrder } =
-  userOrderSlice.actions;
+export const {
+  addIngredient,
+  addBun,
+  deleteIngredient,
+  moveUpIngredient,
+  moveDownIngredient,
+  resetUserOrder
+} = userOrderSlice.actions;

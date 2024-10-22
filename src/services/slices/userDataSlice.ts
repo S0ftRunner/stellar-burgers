@@ -1,4 +1,5 @@
 import {
+  getOrdersApi,
   getUserApi,
   loginUserApi,
   logoutApi,
@@ -9,13 +10,14 @@ import {
   updateUserApi
 } from '@api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { TUser } from '@utils-types';
+import { TOrder, TUser } from '@utils-types';
 import { removeUserTokens, setUserTokens } from '../../utils/auth';
 
 type TUserData = {
   isAuth: boolean;
   isAuthChecked: boolean;
   data: TUser;
+  userOrders: TOrder[];
 };
 
 const initialState: TUserData = {
@@ -24,7 +26,8 @@ const initialState: TUserData = {
   data: {
     name: '',
     email: ''
-  }
+  },
+  userOrders: [],
 };
 
 const userDataSlice = createSlice({
@@ -83,7 +86,24 @@ const userDataSlice = createSlice({
       })
       .addCase(logoutUser.rejected, (state, action) => {
         console.log(`logout rejected: ${action.error}`);
-      });
+      })
+      .addCase(updateUser.pending, state => {
+        console.log('updating user');
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.data = action.payload;
+      })
+      .addCase(getUserOrders.pending, state => {
+        console.log('getting user orders');
+      })
+      .addCase(getUserOrders.fulfilled, (state, action) => {
+        state.userOrders = action.payload;
+        console.log('succesfully get user orders');
+      })
+      .addCase(getUserOrders.rejected, (_, action) => {
+        console.log(`getUserOrders rejected: ${action.error}`);
+      })
+      
   }
 });
 
@@ -147,6 +167,15 @@ export const getUserData = createAsyncThunk('user/getData', async () => {
     return response.user;
   }
 });
+
+export const getUserOrders = createAsyncThunk(
+  'user/getOrders',
+  async () => {
+    const response = await getOrdersApi();
+
+    return response;
+  }
+)
 
 export const userDataReducer = userDataSlice.reducer;
 export const { getUserDataSelector } = userDataSlice.selectors;

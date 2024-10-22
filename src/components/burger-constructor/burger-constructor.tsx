@@ -2,7 +2,7 @@ import { FC, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useSelector, useDispatch } from '../../services/store';
-import { createOrder, getUserOrderBun, getUserOrderIngredients, resetUserOrder } from '../../services/slices/userOrderSlice';
+import { createOrder, getOrderState, getUserOrderBun, getUserOrderIngredients, resetUserOrder } from '../../services/slices/userOrderSlice';
 import { getUserDataSelector } from '../../services/slices/userDataSlice';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,15 +21,17 @@ export const BurgerConstructor: FC = () => {
     ingredients: userOrderIngredients,
   };
 
-  const orderRequest = false;
+  
+  // придет с ответа сервера
 
-  const orderModalData = null;
+  const {orderResponse, orderRequest} = useSelector(getOrderState);
+  const orderModalData = orderResponse?.order || null;
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
 
     if (!isAuth) {
-      return navigate('/login');
+      navigate('/login');
     }
 
     const orderData = [

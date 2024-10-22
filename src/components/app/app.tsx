@@ -53,17 +53,13 @@ const App = () => {
         <Route
           path='/register'
           element={
-            <ProtectedRoute>
               <Register />
-            </ProtectedRoute>
           }
         />
         <Route
           path='/forgot-password'
           element={
-            <ProtectedRoute>
               <ForgotPassword />
-            </ProtectedRoute>
           }
         />
         <Route

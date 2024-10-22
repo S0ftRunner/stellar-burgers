@@ -9,14 +9,12 @@ export const Login: FC = () => {
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
-  const { from } = location.state || { from: { pathname: '/' } };
 
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
-    dispatch(loginUser({email: email, password: password}));
-    navigate(from.pathname, {replace: true});
+    await dispatch(loginUser({email: email, password: password}));
+    navigate('/profile');
   };
 
   return (
