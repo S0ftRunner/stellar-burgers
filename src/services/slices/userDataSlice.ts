@@ -18,6 +18,7 @@ type TUserData = {
   isAuthChecked: boolean;
   data: TUser;
   userOrders: TOrder[];
+  isLoadingUserOrder: boolean;
 };
 
 const initialState: TUserData = {
@@ -28,6 +29,7 @@ const initialState: TUserData = {
     email: ''
   },
   userOrders: [],
+  isLoadingUserOrder: false,
 };
 
 const userDataSlice = createSlice({
@@ -95,13 +97,17 @@ const userDataSlice = createSlice({
       })
       .addCase(getUserOrders.pending, state => {
         console.log('getting user orders');
+        state.isLoadingUserOrder = true;
       })
       .addCase(getUserOrders.fulfilled, (state, action) => {
         state.userOrders = action.payload;
         console.log('succesfully get user orders');
+        state.isLoadingUserOrder = false;
+
       })
-      .addCase(getUserOrders.rejected, (_, action) => {
+      .addCase(getUserOrders.rejected, (state, action) => {
         console.log(`getUserOrders rejected: ${action.error}`);
+        state.isLoadingUserOrder = false;
       })
       
   }

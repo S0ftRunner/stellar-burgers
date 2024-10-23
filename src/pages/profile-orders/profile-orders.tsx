@@ -4,17 +4,18 @@ import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
 import {
   getUserData,
-  getUserDataSelector
+  getUserDataSelector,
+  getUserOrders
 } from '../../services/slices/userDataSlice';
 
 export const ProfileOrders: FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUserData());
+    dispatch(getUserOrders());
   }, [dispatch]);
   
-  const { userOrders } = useSelector(getUserDataSelector) || '';
+  const { userOrders, isLoadingUserOrder } = useSelector(getUserDataSelector);
 
-  return <ProfileOrdersUI orders={userOrders} />;
+  return <ProfileOrdersUI orders={userOrders} isLoading={isLoadingUserOrder}/>;
 };

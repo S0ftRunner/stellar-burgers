@@ -16,7 +16,7 @@ export const ProtectedRoute = ({children}: TProtectedRouteProps) => {
     return <Preloader />
   }
 
-  if (!data.name || !data.email) {
+  if (!data.email || !data.name) {
     return <Navigate to='/login' state={{from: location}}/>
   }
 

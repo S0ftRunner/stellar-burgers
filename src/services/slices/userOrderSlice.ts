@@ -56,6 +56,7 @@ const userOrderSlice = createSlice({
     resetUserOrder: (state) => {
       state.bun = null;
       state.ingredients = [];
+      state.orderResponse = null;
     }
   },
   selectors: {
@@ -73,8 +74,7 @@ const userOrderSlice = createSlice({
     .addCase(createOrder.fulfilled, (state, action) => {
       state.orderResponse = action.payload || null;
       state.orderRequest = false;
-      state.bun = null;
-      state.ingredients = [];
+
     })
   }
 });

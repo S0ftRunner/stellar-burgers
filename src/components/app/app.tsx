@@ -44,24 +44,9 @@ const App = () => {
         <Route path='/feed' element={<Feed />}>
           <Route path=':number' element={<OrderInfo />} />
         </Route>
-        <Route
-          path='/login'
-          element={
-              <Login />
-          }
-        />
-        <Route
-          path='/register'
-          element={
-              <Register />
-          }
-        />
-        <Route
-          path='/forgot-password'
-          element={
-              <ForgotPassword />
-          }
-        />
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route
           path='/reset-password'
           element={
@@ -78,18 +63,24 @@ const App = () => {
               <Profile />
             </ProtectedRoute>
           }
-        >
-          <Route
-            path='orders'
-            element={
-              <ProtectedRoute>
-                <ProfileOrders />
-              </ProtectedRoute>
-            }
-          >
-            <Route path=':number' element={<OrderInfo />} />
-          </Route>
-        </Route>
+        ></Route>
+
+        <Route
+          path='/profile/orders'
+          element={
+            <ProtectedRoute>
+              <ProfileOrders />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/profile/orders/:number'
+          element={
+            <ProtectedRoute>
+              <OrderInfo />
+            </ProtectedRoute>
+          }
+        />
 
         <Route path='/ingredients/:id' element={<IngredientDetails />} />
       </Routes>
