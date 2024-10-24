@@ -52,15 +52,12 @@ const ingredientsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getIngredients.pending, (state) => {
-        console.log('ожидаю ингредиенты');
         state.isLoadingIngredients = true;
       })
       .addCase(getIngredients.rejected, (state) => {
-        console.log('Произошла ошибка в запросе');
         state.isLoadingIngredients = false;
       })
       .addCase(getIngredients.fulfilled, (state, action) => {
-        console.log('Ингредиенты получены');
         state.ingredients = action.payload;
         state.isLoadingIngredients = false;
       });

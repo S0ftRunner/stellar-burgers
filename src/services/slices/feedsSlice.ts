@@ -19,16 +19,14 @@ const initialState: TFeedsState = {
   orderModalData: null
 };
 
-export const getFeeds = createAsyncThunk('feeds/get', async () => {
-  return getFeedsApi();
-});
+export const getFeeds = createAsyncThunk('feeds/get', async () => await getFeedsApi());
 
 const feedsSlice = createSlice({
   name: 'feeds',
   initialState,
   reducers: {},
   selectors: {
-    getOrders: (state) => state.feeds,
+    getOrder: (state) => state.feeds,
     getFeedsSelector: (state) => {
       return state.feeds.orders;
     },
@@ -46,29 +44,23 @@ const feedsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getFeeds.pending, (state) => {
-        console.log('запрос был отправлен');
         state.isLoading = true;
       })
       .addCase(getFeeds.fulfilled, (state, action) => {
-        console.log('запрос завершен успешно');
         state.feeds = action.payload;
         state.isLoading = false;
       })
       .addCase(getFeeds.rejected, (state) => {
-        console.log('запрос отклонен');
         state.isLoading = false;
       })
       .addCase(getOrderByNumber.pending, (state) => {
-        console.log('запрос отправлен');
         state.isLoading = true;
       })
       .addCase(getOrderByNumber.fulfilled, (state, action) => {
-        console.log('данные получены');
         state.orderModalData = action.payload;
         state.isLoading = false;
       })
       .addCase(getOrderByNumber.rejected, (state) => {
-        console.log('данные не были приняты');
         state.isLoading = false;
       });
   }

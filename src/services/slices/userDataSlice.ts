@@ -44,24 +44,21 @@ const userDataSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(regiterUser.pending, (state) => {
-        console.log('register pending');
       })
       .addCase(regiterUser.fulfilled, (state, action) => {
         state.data = action.payload;
         state.isAuth = true;
       })
       .addCase(regiterUser.rejected, (state, action) => {
-        console.log(action.error);
       })
       .addCase(loginUser.pending, (state) => {
-        console.log('login pending');
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.data = action.payload;
         state.isAuth = true;
       })
-      .addCase(loginUser.rejected, (state) => {
-        console.log('login rejected');
+      .addCase(loginUser.rejected, (state, action) => {
+        console.log(`error: ${action.error}`);
       })
       .addCase(getUserData.pending, (state) => {
         console.log('userData pending');
