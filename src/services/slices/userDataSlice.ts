@@ -1,4 +1,5 @@
 import {
+  forgotPasswordApi,
   getOrdersApi,
   getUserApi,
   loginUserApi,
@@ -109,6 +110,15 @@ const userDataSlice = createSlice({
         console.log(`getUserOrders rejected: ${action.error}`);
         state.isLoadingUserOrder = false;
       })
+      .addCase(forgotPassword.pending, (state) => {
+        console.log('pending forgotPassword');
+      })
+      .addCase(forgotPassword.fulfilled, (state) => {
+        console.log('send new pass to your email');
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        console.log(action.error);
+      })
       
   }
 });
@@ -183,5 +193,14 @@ export const getUserOrders = createAsyncThunk(
   }
 )
 
+
+export const forgotPassword = createAsyncThunk(
+  'user/forgotPassword',
+  async (email: {email: string}) => {
+    const response = await forgotPasswordApi(email);
+
+    return response.success;
+  }
+)
 export const userDataReducer = userDataSlice.reducer;
 export const { getUserDataSelector } = userDataSlice.selectors;

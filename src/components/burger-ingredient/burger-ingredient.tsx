@@ -13,7 +13,6 @@ export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
     const dispatch = useDispatch();
 
 
-    // здесь добавляем обработчик для добавления в заказ клиента
     const handleAdd = () => {
       if (ingredient.type === 'bun') {
         console.log(`добавил булочку в стор: ${ingredient.name}`);

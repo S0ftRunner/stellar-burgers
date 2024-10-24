@@ -29,7 +29,6 @@ const userOrderSlice = createSlice({
     },
 
     deleteIngredient: (state, action) => {
-      console.log('удаление элемента');
       state.ingredients = state.ingredients.filter(
         (ingredient) => ingredient._id !== action.payload
       );
@@ -68,7 +67,6 @@ const userOrderSlice = createSlice({
 
   extraReducers: (builder) => {
     builder.addCase(createOrder.pending, (state) => {
-      console.log('pending createOrder');
       state.orderRequest = true;
     })
     .addCase(createOrder.fulfilled, (state, action) => {

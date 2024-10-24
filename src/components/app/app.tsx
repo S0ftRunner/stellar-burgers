@@ -47,14 +47,7 @@ const App = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
-        <Route
-          path='/reset-password'
-          element={
-            <ProtectedRoute>
-              <ResetPassword />
-            </ProtectedRoute>
-          }
-        />
+        <Route path='/reset-password' element={<ResetPassword />} />
 
         <Route
           path='/profile'
@@ -86,30 +79,38 @@ const App = () => {
       </Routes>
 
       <Routes>
-        <Route
-          path='/feed/:number'
-          element={
-            <Modal title='Детали заказа' onClose={onClose}>
-              <OrderInfo />
-            </Modal>
-          }
-        />
-        <Route
-          path='/ingredients/:id'
-          element={
-            <Modal title='Детали ингредиента' onClose={onClose}>
-              <IngredientDetails />
-            </Modal>
-          }
-        />
-        <Route
-          path='/profile/orders/:number'
-          element={
-            <Modal title='Детали заказа' onClose={onClose}>
-              <OrderInfo />
-            </Modal>
-          }
-        />
+        {backgroundLocation && (
+          <Route
+            path='/feed/:number'
+            element={
+              <Modal title='Детали заказа' onClose={onClose}>
+                <OrderInfo />
+              </Modal>
+            }
+          />
+        )}
+
+        {backgroundLocation && (
+          <Route
+            path='/ingredients/:id'
+            element={
+              <Modal title='Детали ингредиента' onClose={onClose}>
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+        )}
+
+        {backgroundLocation && (
+          <Route
+            path='/profile/orders/:number'
+            element={
+              <Modal title='Детали заказа' onClose={onClose}>
+                <OrderInfo />
+              </Modal>
+            }
+          />
+        )}
       </Routes>
     </div>
   );
