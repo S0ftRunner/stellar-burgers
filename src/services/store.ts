@@ -10,14 +10,14 @@ import { feedsReducer } from './slices/feedsSlice';
 import { userOrderReducer } from './slices/userOrderSlice';
 import { userDataReducer } from './slices/userDataSlice';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   feeds: feedsReducer,
   userOrder: userOrderReducer,
   userData: userDataReducer
 });
 
-const store = configureStore({
+export const store = configureStore({
   reducer: rootReducer,
   devTools: process.env.NODE_ENV !== 'production'
 });
@@ -29,4 +29,3 @@ export type AppDispatch = typeof store.dispatch;
 export const useDispatch: () => AppDispatch = () => dispatchHook();
 export const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
 
-export default store;
