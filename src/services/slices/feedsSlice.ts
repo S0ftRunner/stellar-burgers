@@ -5,11 +5,11 @@ import { RootState } from '../store';
 
 type TFeedsState = {
   feeds: TOrdersData;
-  isLoading: boolean;
-  orderModalData: TOrder | null;
+  isLoading?: boolean;
+  orderModalData?: TOrder | null;
 };
 
-const initialState: TFeedsState = {
+export const initialState: TFeedsState = {
   feeds: {
     orders: [],
     total: 0,
