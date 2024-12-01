@@ -24,7 +24,11 @@ export const getFeeds = createAsyncThunk('feeds/get', async () => await getFeeds
 const feedsSlice = createSlice({
   name: 'feeds',
   initialState,
-  reducers: {},
+  reducers: {
+    resetOrderModalData: (state) => {
+      state.orderModalData = null;
+    }
+  },
   selectors: {
     getOrder: (state) => state.feeds,
     getFeedsSelector: (state) => {
@@ -89,3 +93,4 @@ export const getOrderByNumber = createAsyncThunk(
 export const feedsReducer = feedsSlice.reducer;
 export const { getFeedsSelector, getTotalTodaySelector, getTotalSelector, getOrderModalDataSelector, getIsLoadingOrderSelector } =
   feedsSlice.selectors;
+export const {resetOrderModalData} = feedsSlice.actions;

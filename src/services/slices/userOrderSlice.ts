@@ -10,14 +10,14 @@ type TUserOrderData = {
   orderRequest: boolean;
 };
 
-const initialState: TUserOrderData = {
+export const initialState: TUserOrderData = {
   bun: null,
   ingredients: [],
   orderResponse: null,
   orderRequest: false,
 };
 
-const userOrderSlice = createSlice({
+export const userOrderSlice = createSlice({
   name: 'userOrder',
   initialState,
   reducers: {
@@ -106,3 +106,4 @@ export const {
   moveDownIngredient,
   resetUserOrder
 } = userOrderSlice.actions;
+
