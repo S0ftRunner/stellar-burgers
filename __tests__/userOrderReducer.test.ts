@@ -18,7 +18,5 @@ const orderMockData = [
 ]
 
 describe('тест userOrderReducer', () => {
-  const initState = {
-    
-  }
+  const initState = userOrderReducer(initialState, getFeeds.pending('pending'));
 })
