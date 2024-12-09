@@ -18,5 +18,9 @@ const orderMockData = [
 ]
 
 describe('тест userOrderReducer', () => {
-  const initState = userOrderReducer(initialState, getFeeds.pending('pending'));
+  test('Начало запроса', () => {
+    const initState = userOrderReducer(initialState, getFeeds.pending('pending'));
+    expect(initState.orderRequest).toBeTruthy();
+  })
+
 })
