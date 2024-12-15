@@ -1,9 +1,4 @@
 import {
-  feedsReducer,
-  getFeeds,
-  resetOrderModalData
-} from '../src/services/slices/feedsSlice';
-import {
   userOrderReducer,
   createOrder,
   initialState
@@ -24,6 +19,8 @@ const orderMockData = [
     number: 43223
   }
 ];
+
+// ТЕСТИРОВАНИЕ REDUCERS/ACTIONS
 
 describe('Создание заказа пользователем', () => {
   test('Начало запроса', () => {
