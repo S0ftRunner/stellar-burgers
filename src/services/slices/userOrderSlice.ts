@@ -1,7 +1,7 @@
 import { orderBurgerApi, TNewOrderResponse } from '@api';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
-import {v4 as uuidv4} from 'uuid'
+import { v4 as uuidv4 } from 'uuid';
 
 type TUserOrderData = {
   bun: TIngredient | null;
@@ -14,7 +14,7 @@ export const initialState: TUserOrderData = {
   bun: null,
   ingredients: [],
   orderResponse: null,
-  orderRequest: false,
+  orderRequest: false
 };
 
 export const userOrderSlice = createSlice({
@@ -23,11 +23,11 @@ export const userOrderSlice = createSlice({
   reducers: {
     addIngredient: {
       prepare: (ingredient: TIngredient) => {
-       return { payload: {...ingredient, id: uuidv4()}}
+        return { payload: { ...ingredient, id: uuidv4() } };
       },
       reducer: (state, action: PayloadAction<TConstructorIngredient>) => {
         if (action.payload.type === 'bun') {
-          state.bun = action.payload
+          state.bun = action.payload;
         } else {
           state.ingredients.push(action.payload);
         }
@@ -67,19 +67,18 @@ export const userOrderSlice = createSlice({
   selectors: {
     getOrderState: (state) => state,
     getUserOrderBun: (state) => state.bun,
-    getUserOrderIngredients: (state) => state.ingredients,
-
+    getUserOrderIngredients: (state) => state.ingredients
   },
 
   extraReducers: (builder) => {
-    builder.addCase(createOrder.pending, (state) => {
-      state.orderRequest = true;
-    })
-    .addCase(createOrder.fulfilled, (state, action) => {
-      state.orderResponse = action.payload || null;
-      state.orderRequest = false;
-
-    })
+    builder
+      .addCase(createOrder.pending, (state) => {
+        state.orderRequest = true;
+      })
+      .addCase(createOrder.fulfilled, (state, action) => {
+        state.orderResponse = action.payload || null;
+        state.orderRequest = false;
+      });
   }
 });
 
@@ -106,4 +105,3 @@ export const {
   moveDownIngredient,
   resetUserOrder
 } = userOrderSlice.actions;
-

@@ -50,5 +50,3 @@ describe('Создание заказа пользователем', () => {
     expect(state.orderResponse).toBeTruthy();
   });
 });
-
-

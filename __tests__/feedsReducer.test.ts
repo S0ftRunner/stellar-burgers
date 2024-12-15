@@ -6,9 +6,11 @@ import {
 } from '../src/services/slices/feedsSlice';
 
 const feedsMockData = {
-  orders: [],
-  total: 1,
-  totalToday: 1,
+  feeds: {
+    orders: [],
+    total: 1,
+    totalToday: 1
+  },
   success: true,
   orderModalData: [
     {
@@ -24,7 +26,6 @@ const feedsMockData = {
       updatedAt: '2024-10-19T09:10:24.123Z',
       number: 43223
     }
-  
   ]
 };
 
@@ -39,7 +40,6 @@ describe('Тестировани feedsReducer', () => {
       initialState,
       getFeeds.fulfilled(feedsMockData, 'fulfilled')
     );
-
     expect(state.isLoading).toBeFalsy();
     expect(state.feeds).toEqual(feedsMockData);
   });
@@ -52,10 +52,11 @@ describe('Работа модального окна', () => {
       getFeeds.fulfilled(feedsMockData, 'fulfilled')
     );
 
-    const stateWithoutOrderModalData = feedsReducer(state, resetOrderModalData());
-
+    const stateWithoutOrderModalData = feedsReducer(
+      state,
+      resetOrderModalData()
+    );
     expect(stateWithoutOrderModalData.orderModalData).toBeNull();
+    
   });
-
 });
-
