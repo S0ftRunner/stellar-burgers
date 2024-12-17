@@ -3,7 +3,6 @@ import {
   initialState,
   feedsReducer,
   resetOrderModalData,
-  getFeedsSelector,
   getOrderByNumber
 } from '../src/services/slices/feedsSlice';
 
@@ -91,8 +90,24 @@ describe('Работа модального окна', () => {
 describe('Работа асинхронных экшенов', () => {
   test('Начало запроса getOrderByNumber: ', () => {
     const state = feedsReducer(
-      initialState, 
-      getOrderByNumber.pending(mockOrdersData.number, 'pending')
+      initialState,
+      getOrderByNumber.pending('pending', feedsMockData.feeds.orders[0].number)
     );
+
+    expect(state.isLoading).toBeTruthy();
+  });
+
+  test('Результат запроса getOrderByNumber: ', () => {
+    const state = feedsReducer(
+      initialState,
+      getOrderByNumber.fulfilled(
+        feedsMockData.feeds.orders[0],
+        'fulfilled',
+        feedsMockData.feeds.orders[0].number
+      )
+    );
+
+    expect(state.isLoading).toBeFalsy();
+    expect(state.orderModalData).toEqual(feedsMockData.feeds.orders[0]);
   });
 });
