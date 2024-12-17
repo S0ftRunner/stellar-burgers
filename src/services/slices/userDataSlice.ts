@@ -22,7 +22,7 @@ type TUserData = {
   isLoadingUserOrder: boolean;
 };
 
-const initialState: TUserData = {
+export const initialState: TUserData = {
   isAuth: false,
   isAuthChecked: false,
   data: {
@@ -30,7 +30,7 @@ const initialState: TUserData = {
     email: ''
   },
   userOrders: [],
-  isLoadingUserOrder: false,
+  isLoadingUserOrder: false
 };
 
 const userDataSlice = createSlice({
@@ -43,16 +43,13 @@ const userDataSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      .addCase(regiterUser.pending, (state) => {
-      })
+      .addCase(regiterUser.pending, (state) => {})
       .addCase(regiterUser.fulfilled, (state, action) => {
         state.data = action.payload;
         state.isAuth = true;
       })
-      .addCase(regiterUser.rejected, (state, action) => {
-      })
-      .addCase(loginUser.pending, (state) => {
-      })
+      .addCase(regiterUser.rejected, (state, action) => {})
+      .addCase(loginUser.pending, (state) => {})
       .addCase(loginUser.fulfilled, (state, action) => {
         state.data = action.payload;
         state.isAuth = true;
@@ -87,13 +84,13 @@ const userDataSlice = createSlice({
       .addCase(logoutUser.rejected, (state, action) => {
         console.log(`logout rejected: ${action.error}`);
       })
-      .addCase(updateUser.pending, state => {
+      .addCase(updateUser.pending, (state) => {
         console.log('updating user');
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.data = action.payload;
       })
-      .addCase(getUserOrders.pending, state => {
+      .addCase(getUserOrders.pending, (state) => {
         console.log('getting user orders');
         state.isLoadingUserOrder = true;
       })
@@ -101,7 +98,6 @@ const userDataSlice = createSlice({
         state.userOrders = action.payload;
         console.log('succesfully get user orders');
         state.isLoadingUserOrder = false;
-
       })
       .addCase(getUserOrders.rejected, (state, action) => {
         console.log(`getUserOrders rejected: ${action.error}`);
@@ -115,8 +111,7 @@ const userDataSlice = createSlice({
       })
       .addCase(forgotPassword.rejected, (state, action) => {
         console.log(action.error);
-      })
-      
+      });
   }
 });
 
@@ -181,23 +176,19 @@ export const getUserData = createAsyncThunk('user/getData', async () => {
   }
 });
 
-export const getUserOrders = createAsyncThunk(
-  'user/getOrders',
-  async () => {
-    const response = await getOrdersApi();
+export const getUserOrders = createAsyncThunk('user/getOrders', async () => {
+  const response = await getOrdersApi();
 
-    return response;
-  }
-)
-
+  return response;
+});
 
 export const forgotPassword = createAsyncThunk(
   'user/forgotPassword',
-  async (email: {email: string}) => {
+  async (email: { email: string }) => {
     const response = await forgotPasswordApi(email);
 
     return response.success;
   }
-)
+);
 export const userDataReducer = userDataSlice.reducer;
 export const { getUserDataSelector } = userDataSlice.selectors;
