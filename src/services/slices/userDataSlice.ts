@@ -10,7 +10,11 @@ import {
   TRegisterData,
   updateUserApi
 } from '@api';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  SerializedError
+} from '@reduxjs/toolkit';
 import { TOrder, TUser } from '@utils-types';
 import { removeUserTokens, setUserTokens } from '../../utils/auth';
 
@@ -20,6 +24,8 @@ type TUserData = {
   data: TUser;
   userOrders: TOrder[];
   isLoadingUserOrder: boolean;
+  registerError?: SerializedError;
+  loginError?: SerializedError;
 };
 
 export const initialState: TUserData = {
@@ -30,7 +36,9 @@ export const initialState: TUserData = {
     email: ''
   },
   userOrders: [],
-  isLoadingUserOrder: false
+  isLoadingUserOrder: false,
+  loginError: undefined,
+  registerError: undefined
 };
 
 const userDataSlice = createSlice({
@@ -48,14 +56,16 @@ const userDataSlice = createSlice({
         state.data = action.payload;
         state.isAuth = true;
       })
-      .addCase(regiterUser.rejected, (state, action) => {})
+      .addCase(regiterUser.rejected, (state, action) => {
+        state.registerError = action.error;
+      })
       .addCase(loginUser.pending, (state) => {})
       .addCase(loginUser.fulfilled, (state, action) => {
         state.data = action.payload;
         state.isAuth = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
-        console.log(`error: ${action.error}`);
+        state.loginError = action.error;
       })
       .addCase(getUserData.pending, (state) => {
         console.log('userData pending');
