@@ -1,5 +1,7 @@
 import * as orderFixture from '../../fixtures/order.json';
 
+const DATA_INGREDIENT_BUN = '[data-ingredient="bun"]';
+
 describe('Тест конструктора', () => {
   beforeEach(() => {
     cy.intercept('GET', 'api/ingredients', { fixture: 'ingredients' });
@@ -7,7 +9,7 @@ describe('Тест конструктора', () => {
   });
 
   it('Список ингредиентов доступен для выбора', () => {
-    cy.get('[data-ingredient="bun"]').should('have.length.at.least', 1);
+    cy.get(DATA_INGREDIENT_BUN).should('have.length.at.least', 1);
     cy.get('[data-ingredient="main"],[data-ingredient="sauce"]').should(
       'have.length.at.least',
       1
@@ -17,12 +19,12 @@ describe('Тест конструктора', () => {
   describe('Проверка работы модальных окон описаний ингредиентов', () => {
     describe('Проверка открытия модальных окон', () => {
       it('Базовое открытие по карточке ингредиента', () => {
-        cy.get('[data-ingredient="bun"]:first-of-type').click();
+        cy.get(`${DATA_INGREDIENT_BUN}:first-of-type`).click();
         cy.get('#modals').children().should('have.length', 2);
       });
 
       it('Модальное окно с ингредиентом будет открыто после перезагрузки страницы', () => {
-        cy.get('[data-ingredient="bun"]:first-of-type').click();
+        cy.get(`${DATA_INGREDIENT_BUN}:first-of-type`).click();
         cy.reload(true);
         cy.get('#modals').children().should('have.length', 2);
       });
@@ -30,21 +32,21 @@ describe('Тест конструктора', () => {
 
     describe('Проверка закрытия модальных окон', () => {
       it('Через нажатие на крестик', () => {
-        cy.get('[data-ingredient="bun"]:first-of-type').click();
+        cy.get(`${DATA_INGREDIENT_BUN}:first-of-type`).click();
         cy.get('#modals button:first-of-type').click();
         cy.wait(500);
         cy.get('#modals').children().should('have.length', 0);
       });
 
       it('Через нажатие на оверлей', () => {
-        cy.get('[data-ingredient="bun"]:first-of-type').click();
+        cy.get(`${DATA_INGREDIENT_BUN}:first-of-type`).click();
         cy.get('#modals>div:nth-of-type(2)').click({ force: true });
         cy.wait(500);
         cy.get('#modals').children().should('have.length', 0);
       });
 
       it('Через нажатие на Escape', () => {
-        cy.get('[data-ingredient="bun"]:first-of-type').click();
+        cy.get(`${DATA_INGREDIENT_BUN}:first-of-type`).click();
         cy.get('body').type('{esc}');
         cy.wait(500);
         cy.get('#modals').children().should('have.length', 0);
@@ -67,13 +69,17 @@ describe('Тест конструктора', () => {
     it('Базовая процедура оформления ПОСЛЕ авторизации', () => {
       // Проверка работы конструктора, по умолчанию он отключен пока не будет выбрана хотя бы 1 ингредиент и булка
       cy.get('[data-order-button]').should('be.disabled');
-      cy.get('[data-ingredient="bun"]:first-of-type button').click();
+      cy.get(`${DATA_INGREDIENT_BUN}:first-of-type button`).click();
       cy.get('[data-order-button]').should('be.disabled');
       cy.get('[data-ingredient="main"]:first-of-type button').click();
       cy.get('[data-order-button]').should('be.enabled');
 
       // Нажатие на саму кнопку оформления заказа
       cy.get('[data-order-button]').click();
+
+      cy.intercept('POST', 'api/orders', (req) => {
+        expect(req.body).to.deep.equal(orderFixture);
+      });
 
       // После успешной отправки данных на сервер должно быть открыто модальное окно с оформлением заказа
       cy.get('#modals').children().should('have.length', 2);
