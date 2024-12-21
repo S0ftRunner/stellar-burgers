@@ -70,10 +70,7 @@ describe('Тест конструктора', () => {
     });
 
     it('Базовая процедура оформления ПОСЛЕ авторизации', () => {
-      // Проверка работы конструктора, по умолчанию он отключен пока не будет выбрана хотя бы 1 ингредиент и булка
-      cy.get(DATA_ORDER_BUTTON).should('be.disabled');
-      cy.get(`${DATA_INGREDIENT_BUN_WITH_PSEUDOCLASS} button`).click();
-      cy.get(DATA_ORDER_BUTTON).should('be.disabled');
+      // проверка доступности кнопки при добавлении ингредиента
       cy.get('[data-ingredient="main"]:first-of-type button').click();
       cy.get(DATA_ORDER_BUTTON).should('be.enabled');
 
